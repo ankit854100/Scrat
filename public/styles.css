@@ -1,0 +1,81 @@
+body,
+html {
+  /* text-align: center !important; */
+  height: 100%;
+  background-color: #e5f0ff !important;
+}
+
+body {
+  min-height: 100%;
+  overflow: hidden;
+}
+#root {
+  height: 100% !important;
+}
+
+.h2div {
+  text-align: center;
+}
+
+.custombutton {
+  margin-left: 0.3125em !important;
+}
+
+.wrapper {
+  margin-top: 0.46875em !important;
+  height: 100% !important;
+}
+
+.rectangle {
+  background-color: #fff !important;
+  height: 21.875em !important;
+  width: 25em !important;
+  border: 0.0625em solid #c3ccd9;
+  display: inline-block !important;
+  margin: 0 0.3125em !important;
+  text-align: center !important;
+  margin-top: 2.5625em !important;
+  border-radius: 0.3125em !important;
+}
+
+#canvas {
+  margin: 4.375em auto !important;
+}
+
+.blocklyWrapper {
+  display: inline-block !important;
+  float: left;
+  width: 58.125em;
+  height: 100% !important;
+}
+
+.blocklySvg {
+  background-color: #f9f9f9 !important;
+  border-radius: 0.3125;
+  border: 0.0625em solid #c3ccd9;
+}
+
+.blocklyFlyoutBackground {
+  fill: #f9f9f9 !important;
+  stroke: #c3ccd9 !important;
+  stroke-width: 0.0625em;
+}
+
+.blocklyMainBackground {
+  stroke-width: 0 !important;
+}
+
+#blocklyDiv {
+  border-radius: 0.3125em !important;
+  display: inline-block !important;
+  /* height: 35.35em !important; */
+  height: 100%;
+  width: 58.125em !important;
+}
+
+.buttonContainer {
+  display: inline-block;
+  padding: 0.3125em 0 0.3125em 0.3125em !important;
+  background-color: #e5f0ff !important;
+  float: right;
+}
