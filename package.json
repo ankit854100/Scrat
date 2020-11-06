@@ -8,7 +8,7 @@
   ],
   "main": "src/index.js",
   "dependencies": {
-    "blockly": "3.20200924.2",
+    "blockly": "3.20200924.4",
     "bootstrap": "4.5.3",
     "react": "16.13.1",
     "react-bootstrap": "1.4.0",
