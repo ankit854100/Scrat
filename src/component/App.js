@@ -9,7 +9,13 @@ import dimension, {
   status,
   restoreGame
 } from "./CanvasAssets";
+
+import nut from "../Images/nut.png";
+import squirrel from "../Images/squirrel.png";
+import squirrelNut from "../Images/squirrel-nut.png";
+
 let ctx;
+
 export default function App() {
   const ref = useRef();
   const [h1Value, setH1Value] = useState("Help the squirrel to fetch nut.");
@@ -34,12 +40,9 @@ export default function App() {
       "https://as2.ftcdn.net/jpg/03/34/01/45/500_F_334014537_vwNUVQcbFkNcC8buHRZF20O8P2FHl05X.jpg"
     );
     if (status !== 1) {
-      drawBlock(
-        ctx,
-        "#49A6CF",
-        target,
-        "https://www.flaticon.com/svg/static/icons/svg/2435/2435673.svg"
-      );
+      drawBlock(ctx, "#49A6CF", target, nut);
+
+      // "https://www.flaticon.com/svg/static/icons/svg/2435/2435673.svg"
     }
     if (status === 2) {
       setWorkspaceStatus("stop");
@@ -48,20 +51,14 @@ export default function App() {
       );
     }
     if (status === 0) {
-      drawCharacter(
-        ctx,
-        "#49A6CF",
-        "https://www.flaticon.com/svg/static/icons/svg/1864/1864534.svg"
-      );
+      drawCharacter(ctx, "#49A6CF", squirrel);
+      // "https://www.flaticon.com/svg/static/icons/svg/1864/1864534.svg"
     }
     if (status === 1) {
       setWorkspaceStatus("stop");
       setH1Value("Great! squirrel is very happy.");
-      drawCharacter(
-        ctx,
-        "#49A6CF",
-        "https://www.flaticon.com/svg/static/icons/svg/1934/1934150.svg"
-      );
+      drawCharacter(ctx, "#49A6CF", squirrelNut);
+      // "https://www.flaticon.com/svg/static/icons/svg/1934/1934150.svg"
     }
 
     requestAnimationFrame(main);
@@ -74,13 +71,17 @@ export default function App() {
   }
   return (
     <React.Fragment>
-      <div className="h2div">
-        <h2> {h1Value} </h2>
-      </div>
-      <div className="wrapper">
-        <Workspace status={workspaceStatus} resetGame={resetGame} />
-        <div className="rectangle">
-          <canvas ref={ref} id="canvas" />
+      <div className="top-wrapper">
+        <div className="instruction-container">
+          <h2> {h1Value} </h2>
+        </div>
+        <div className="blocklyWrapper">
+          <div className="blocklyContainer">
+            <Workspace status={workspaceStatus} resetGame={resetGame} />
+          </div>
+          <div className="rectangle">
+            <canvas ref={ref} id="canvas" />
+          </div>
         </div>
       </div>
     </React.Fragment>

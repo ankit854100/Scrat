@@ -14,7 +14,11 @@ export default function Workspace(props) {
       workSpace = Blockly.inject("blocklyDiv", {
         toolbox: document.getElementById("toolbox"),
         scrollbars: true,
-        grid: { spacing: 40, length: 1, colour: "#ccc", snap: true }
+        move: {
+          drag: true,
+          wheel: true
+        },
+        grid: { spacing: 40, length: 2, colour: "#ccc", snap: true }
       });
 
       Blockly.Xml.domToWorkspace(
@@ -49,7 +53,7 @@ export default function Workspace(props) {
   }
 
   return (
-    <div className="blocklyWrapper">
+    <div className="blocklyInnerWrapper">
       <div className="buttonContainer">
         <Button
           variant="primary"

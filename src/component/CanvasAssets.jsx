@@ -111,6 +111,8 @@ async function west() {
         checkDestination(dx, dy);
       }
       x += dx;
+    } else {
+      status = 2;
     }
   }
 
@@ -138,6 +140,8 @@ async function east() {
         checkDestination(dx, dy);
       }
       x += dx;
+    } else {
+      status = 2;
     }
   }
 }
@@ -163,6 +167,8 @@ async function north() {
         checkDestination(dx, dy);
       }
       y += dy;
+    } else {
+      status = 2;
     }
   }
 }
@@ -189,6 +195,8 @@ async function south() {
         checkDestination(dx, dy);
       }
       y += dy;
+    } else {
+      status = 2;
     }
   }
 }
