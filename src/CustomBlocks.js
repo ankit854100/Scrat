@@ -104,3 +104,21 @@ Blockly.JavaScript["east"] = function (block) {
   var code = "await canvas.east();\n";
   return code;
 };
+
+// collect block
+Blockly.Blocks["block_type_collect"] = {
+  init: function () {
+    this.appendDummyInput().appendField("collect carrots");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour("#4C97FF");
+    this.setTooltip("");
+    this.setHelpUrl("");
+  }
+};
+
+Blockly.JavaScript["block_type_collect"] = function (block) {
+  // TODO: Assemble JavaScript into code variable.
+  var code = "canvas.checkCarrots();";
+  return code;
+};

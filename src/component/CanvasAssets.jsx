@@ -1,48 +1,43 @@
-// import { alert } from "blockly";
+import level1, { level5, level9 } from "../Levels";
 
-const dimension = { w: 200, h: 200 };
+const dimension = { w: 280, h: 280 };
 
-const restrictedCoordinates = [
-  [1, 1, 1, 1, 0],
-  [0, 0, 0, 0, 0],
-  [1, 0, 1, 0, 1],
-  [1, 1, 1, 1, 0],
-  [0, 1, 1, 0, 0]
-];
+let level = JSON.parse(JSON.stringify(level5));
+
+let coordinates = level.coordinates;
 
 const path = [
-  [0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0]
+  [0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0]
 ];
 
-const target = [
-  [0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0],
-  [0, 1, 0, 0, 0],
-  [0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0]
-];
-
-const start = [
-  [0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0],
-  [0, 0, 0, 1, 0],
-  [0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0]
-];
-
-let rows = 5;
-let col = 5;
+let rows = 7;
+let col = 7;
 let factor = 40;
 let status = 0;
 
-let x = 120;
-let y = 80;
+let x = 0;
+let y = 0;
+
 let dx = 0;
 let dy = 0;
+let carrots = 0;
+let direction = "left";
+let isCollect = false;
+
+for (let i = 0; i < rows; i++) {
+  for (let j = 0; j < col; j++) {
+    if (coordinates[i][j] === 4) {
+      x = j * factor;
+      y = i * factor;
+    }
+  }
+}
 
 function drawGrid(ctx, color) {
   for (let i = 0; i < rows; i++) {
@@ -58,16 +53,22 @@ function drawGrid(ctx, color) {
   }
 }
 
-function drawBlock(ctx, color, coordinates, src) {
+function drawBlock(ctx, color, coordinates, src, value) {
   let image = new Image();
   image.src = src;
   for (let i = 0; i < rows; i++) {
     for (let j = 0; j < rows; j++) {
-      if (coordinates[i][j] === 1) {
+      if (coordinates[i][j] === value) {
         ctx.beginPath();
-        ctx.strokeStyle = color;
-        ctx.drawImage(image, j * factor, i * factor, factor, factor);
-        ctx.strokeRect(j * factor, i * factor, factor, factor);
+        // ctx.strokeStyle = color;
+        ctx.drawImage(
+          image,
+          j * factor + 4,
+          i * factor + 4,
+          factor - 8,
+          factor - 10
+        );
+        // ctx.strokeRect(j * factor, i * factor, factor, factor);
         ctx.closePath();
       }
     }
@@ -101,16 +102,13 @@ async function west() {
         y += dy;
         await sleep(1000);
         status = 2;
-        // while (y < dimension.w + 2 * factor) {
-        //   await sleep(500);
-        //   y += factor;
-        // }
         return;
       }
       if (status === 0) {
         checkDestination(dx, dy);
       }
-      x += dx;
+      direction = "left";
+      if (!checkTrees(dx, dy)) x += dx;
     } else {
       status = 2;
     }
@@ -130,15 +128,12 @@ async function east() {
         y += dy;
         await sleep(1000);
         status = 2;
-        // while (y < dimension.w + 2 * factor) {
-        //   await sleep(500);
-        //   y += factor;
-        // }
         return;
       }
       if (status === 0) {
         checkDestination(dx, dy);
       }
+      direction = "right";
       x += dx;
     } else {
       status = 2;
@@ -157,16 +152,12 @@ async function north() {
         y += dy;
         await sleep(1000);
         status = 2;
-        // while (y < dimension.w + 2 * factor) {
-        //   await sleep(500);
-        //   y += factor;
-        // }
         return;
       }
       if (status === 0) {
         checkDestination(dx, dy);
       }
-      y += dy;
+      if (!checkTrees(dx, dy)) y += dy;
     } else {
       status = 2;
     }
@@ -184,17 +175,12 @@ async function south() {
         y += dy;
         await sleep(1000);
         status = 2;
-        // while (y < dimension.w + 2 * factor) {
-        //   await sleep(500);
-        //   y += factor;
-        // }
-        // alert("game over");
         return;
       }
       if (status === 0) {
         checkDestination(dx, dy);
       }
-      y += dy;
+      if (!checkTrees(dx, dy)) y += dy;
     } else {
       status = 2;
     }
@@ -205,7 +191,7 @@ function collisionDetection(dx, dy) {
   let tempX = x + dx;
   let tempY = y + dy;
 
-  if (restrictedCoordinates[tempY / factor][tempX / factor] === 1) {
+  if (coordinates[tempY / factor][tempX / factor] === 1) {
     // x += dx;
     // y += dy;
     // status = 2;
@@ -214,28 +200,58 @@ function collisionDetection(dx, dy) {
   return false;
 }
 
+function checkTrees(dx, dy) {
+  let tempX = x + dx;
+  let tempY = y + dy;
+  if (coordinates[tempY / factor][tempX / factor] === 2) {
+    // alert("you win!");
+    return true;
+  }
+  return false;
+}
+
 function checkDestination(dx, dy) {
   let tempX = x + dx;
   let tempY = y + dy;
-  if (target[tempY / factor][tempX / factor] === 1) {
+  if (coordinates[tempY / factor][tempX / factor] === 5) {
     // alert("you win!");
     status = 1;
   }
 }
 
+function checkCarrots() {
+  if (coordinates[y / factor][x / factor] === 3) {
+    carrots++;
+    coordinates[y / factor][x / factor] = 0;
+    console.log(carrots);
+  }
+}
+
+function setIsCollect(value) {
+  isCollect = value;
+}
+
 function restoreGame(value) {
+  level = JSON.parse(JSON.stringify(level5));
+  coordinates = level.coordinates;
   status = value;
-  x = 120;
-  y = 80;
+  direction = "left";
+  carrots = 0;
   dx = 0;
   dy = 0;
+  for (let i = 0; i < rows; i++) {
+    for (let j = 0; j < col; j++) {
+      if (coordinates[i][j] === 4) {
+        x = j * factor;
+        y = i * factor;
+      }
+    }
+  }
+  // console.log(coordinates);
 }
 
 export default dimension;
 export {
-  restrictedCoordinates,
-  target,
-  start,
   path,
   drawGrid,
   drawBlock,
@@ -245,5 +261,10 @@ export {
   south,
   drawCharacter,
   status,
-  restoreGame
+  restoreGame,
+  direction,
+  coordinates,
+  setIsCollect,
+  checkCarrots,
+  carrots
 };

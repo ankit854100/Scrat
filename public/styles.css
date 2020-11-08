@@ -76,14 +76,14 @@ body {
 .rectangle {
   background-color: #fff;
   border-radius: 0.3225em;
-  border: 0.0625em solid #c3ccd9;
-  margin-top: 41px;
-  margin-right: 5px;
+  border: 0.061em solid #c3ccd9;
+  margin-top: 2.375em;
+  margin-right: 0.3125em;
   width: 35%;
-  height: 21.875em;
+  height: 25.2em;
   text-align: center !important;
 }
 
 #canvas {
-  margin-top: 4.375em;
+  margin-top: 2.375em;
 }

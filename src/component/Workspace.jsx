@@ -6,7 +6,7 @@ import * as canvas from "./CanvasAssets";
 import { Button } from "react-bootstrap";
 
 let workSpace = new Blockly.Workspace();
-let blocks = ["east", "west", "north", "south"];
+let blocks = ["east", "west", "north", "south", "block_type_collect"];
 
 export default function Workspace(props) {
   useEffect(() => {
@@ -84,13 +84,13 @@ export default function Workspace(props) {
         style={{ display: "none" }}
       >
         <Blocks blocks={blocks} />
-        {/* <block type="controls_repeat_ext">
+        <block type="controls_repeat_ext">
           <value name="TIMES">
             <block type="math_number" movable="false">
               <field name="NUM">2</field>
             </block>
           </value>
-        </block> */}
+        </block>
         _
       </xml>
       <xml
